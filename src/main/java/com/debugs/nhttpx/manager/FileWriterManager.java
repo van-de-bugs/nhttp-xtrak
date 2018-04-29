@@ -1,6 +1,6 @@
 package com.debugs.nhttpx.manager;
 
-import com.debugs.nhttpx.config.ApplicationConfig;
+import com.debugs.nhttpx.config.ApplicationProperties;
 import com.debugs.nhttpx.io.FileWriterWrapper;
 import com.debugs.nhttpx.io.WritableRow;
 import com.debugs.nhttpx.message.Message;
@@ -25,7 +25,7 @@ import com.debugs.nhttpx.task.FileWriterTaskListener;
 public class FileWriterManager implements FileWriterTaskListener {
     
     @Autowired
-    private ConfigurationManager configurationManager;
+    private ApplicationProperties applicationProperties;
     
     @Autowired
     private ExecutorManager executorManager;
@@ -34,9 +34,7 @@ public class FileWriterManager implements FileWriterTaskListener {
     private final Map<String, FileWriterWrapper> fileWriterMap = new HashMap<>();
     
     public File getFile(Message message) throws IOException {
-        ApplicationConfig config = configurationManager.getApplicationConfig();
-        
-        File dir = new File(config.getOutputDir());
+        File dir = new File(applicationProperties.getOutputDir());
         if (!dir.exists()) {
             dir.mkdirs();
         }

@@ -1,7 +1,7 @@
 package com.debugs.nhttpx.manager;
 
-import com.debugs.nhttpx.config.ApplicationConfig;
-import com.debugs.nhttpx.config.ConnectionConfig;
+import com.debugs.nhttpx.config.ApplicationProperties;
+import com.debugs.nhttpx.config.ConnectionProperties;
 import com.debugs.nhttpx.evaluation.FieldEvaluator;
 import com.debugs.nhttpx.io.WritableRow;
 import com.debugs.nhttpx.message.Message;
@@ -34,7 +34,13 @@ public class ProcessManager implements RequestTaskListener {
     private static final String CONTEXT_DATA = "data";
     
     @Autowired
-    private ConfigurationManager configurationManager;
+    private ApplicationProperties applicationProperties;
+    
+    @Autowired
+    private ConnectionProperties connectionProperties;
+    
+    @Autowired
+    private MessageSettings messageSettings;
     
     @Autowired
     private ExecutorManager executorManager;
@@ -45,8 +51,7 @@ public class ProcessManager implements RequestTaskListener {
     private final Logger LOGGER = LogManager.getLogger();
     
     public void doProcess() throws Exception {
-        MessageSettings settings = configurationManager.getMessageSettings();
-        List<Message> messages = settings.getMessages();
+        List<Message> messages = messageSettings.getMessages();
         
         if (messages != null && !messages.isEmpty()) {
             doProcess(0, null, 0);
@@ -54,10 +59,7 @@ public class ProcessManager implements RequestTaskListener {
     }
 
     private void doProcess(int index, DataWrapper parent, int position) throws Exception {
-        ConnectionConfig config = configurationManager.getConnectionConfig();
-        
-        MessageSettings settings = configurationManager.getMessageSettings();
-        List<Message> messages = settings.getMessages();
+        List<Message> messages = messageSettings.getMessages();
         
         Message message = messages.get(index);
         
@@ -68,8 +70,8 @@ public class ProcessManager implements RequestTaskListener {
         task.setId(index);
         task.setPosition(position);
         task.setListener(this);
-        task.setResponseCodePattern(config.getResponseCodePattern());
-        task.setMaxErrorRepeat(config.getMaxErrorRepeat());
+        task.setResponseCodePattern(connectionProperties.getResponseCodePattern());
+        task.setMaxErrorRepeat(connectionProperties.getMaxErrorRepeat());
         task.setHasNext(index + 1 < messages.size());
         
         executorManager.execute(task);
@@ -88,8 +90,6 @@ public class ProcessManager implements RequestTaskListener {
     }
     
     private void doFetch(RequestTask task, List datas) throws Exception {
-        ApplicationConfig config = configurationManager.getApplicationConfig();
-        
         Message message = task.getMessage();
         Response response = message.getResponse();
         
@@ -111,7 +111,7 @@ public class ProcessManager implements RequestTaskListener {
             WritableRow row = new WritableRow();
             row.setFields(fields);
             
-            if (config.isAllowDuplicate() || !rowSet.contains(row)) {
+            if (applicationProperties.isAllowDuplicate() || !rowSet.contains(row)) {
                 LOGGER.debug("Data: {}", row);
 
                 int position = makePosition(i, datas.size());

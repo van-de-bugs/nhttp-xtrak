@@ -1,6 +1,6 @@
 package com.debugs.nhttpx.manager;
 
-import com.debugs.nhttpx.config.ApplicationConfig;
+import com.debugs.nhttpx.config.ApplicationProperties;
 import com.debugs.nhttpx.message.Message;
 import com.debugs.nhttpx.message.MessageSettings;
 import com.debugs.nhttpx.task.SchedulerTask;
@@ -23,7 +23,10 @@ import org.springframework.stereotype.Component;
 public class RuntimeManager implements SchedulerTaskListener {
 
     @Autowired
-    private ConfigurationManager configurationManager;
+    private ApplicationProperties applicationProperties;
+    
+    @Autowired
+    private MessageSettings messageSettings;
     
     @Autowired
     private ExecutorManager executorManager;
@@ -50,12 +53,10 @@ public class RuntimeManager implements SchedulerTaskListener {
             currentFuture.cancel(false);
         }
         
-        ApplicationConfig config = configurationManager.getApplicationConfig();
-        
         SchedulerTask task = new SchedulerTask(this);
         ScheduledExecutorService service = getSchedulerService();
         currentFuture = service.schedule(task,
-                config.getProcessTimeout(), TimeUnit.MILLISECONDS);
+                applicationProperties.getProcessTimeout(), TimeUnit.MILLISECONDS);
     }
     
     public void stopSchedulerService() {
@@ -73,8 +74,7 @@ public class RuntimeManager implements SchedulerTaskListener {
         
         boolean isRunning = false;
         try {
-            MessageSettings settings = configurationManager.getMessageSettings();
-            List<Message> messages = settings.getMessages();
+            List<Message> messages = messageSettings.getMessages();
             for (Message message : messages) {
                 ExecutorStatus status = executorManager.getFileWriterStatus(message);
                 if (status == ExecutorStatus.IDLE) {
