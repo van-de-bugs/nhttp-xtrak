@@ -1,6 +1,6 @@
 package com.debugs.nhttpx;
 
-import com.debugs.nhttpx.concurrency.ShutdownHook;
+import com.debugs.nhttpx.event.ShutdownHook;
 import com.debugs.nhttpx.config.BeanConfiguration;
 import com.debugs.nhttpx.manager.ProcessManager;
 import java.io.IOException;

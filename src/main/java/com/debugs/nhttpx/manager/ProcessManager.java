@@ -2,7 +2,7 @@ package com.debugs.nhttpx.manager;
 
 import com.debugs.nhttpx.config.ApplicationConfig;
 import com.debugs.nhttpx.config.ConnectionConfig;
-import com.debugs.nhttpx.evaluator.FieldEvaluator;
+import com.debugs.nhttpx.evaluation.FieldEvaluator;
 import com.debugs.nhttpx.io.WritableRow;
 import com.debugs.nhttpx.message.Message;
 import com.debugs.nhttpx.message.MessageSettings;

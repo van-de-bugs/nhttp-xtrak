@@ -1,4 +1,4 @@
-package com.debugs.nhttpx.concurrency;
+package com.debugs.nhttpx.event;
 
 import com.debugs.nhttpx.Application;
 import java.io.IOException;
