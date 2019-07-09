@@ -22,7 +22,7 @@
                 <fields>
                     <field>${data.kode_bps}</field>
                     <field>${parent.data.kode_bps}</field>
-                    <field>${data.nama_bps}</field>
+                    <field>#if( ${data.nama_dagri.startsWith("KOTA ")} )KOTA #elseif( ${data.nama_dagri.startsWith("KAB")} )KAB. #end${data.nama_bps}</field>
                 </fields>
             </response>
         </message>

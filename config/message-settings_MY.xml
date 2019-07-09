@@ -14,7 +14,7 @@
                 </params>
             </request>
             <response>
-                <data-path>features</data-path>
+                <data-field>features</data-field>
                 <fields>
                     <field>${data.attributes.KOD_NEGERI}</field>
                     <field>${data.attributes.NAM}</field>
@@ -34,7 +34,7 @@
                 </params>
             </request>
             <response>
-                <data-path>features</data-path>
+                <data-field>features</data-field>
                 <fields>
                     <field>${parent.data.attributes.KOD_NEGERI}${data.attributes.KOD_DAERAH}</field>
                     <field>${parent.data.attributes.KOD_NEGERI}</field>
@@ -55,7 +55,7 @@
                 </params>
             </request>
             <response>
-                <data-path>features</data-path>
+                <data-field>features</data-field>
                 <fields>
                     <field>${parent.parent.data.attributes.KOD_NEGERI}${parent.data.attributes.KOD_DAERAH}${data.attributes.KOD_MUKIM}</field>
                     <field>${parent.parent.data.attributes.KOD_NEGERI}${parent.data.attributes.KOD_DAERAH}</field>
@@ -76,7 +76,7 @@
                 </params>
             </request>
             <response>
-                <data-path>features</data-path>
+                <data-field>features</data-field>
                 <fields>
                     <field>${parent.parent.parent.data.attributes.KOD_NEGERI}${parent.parent.data.attributes.KOD_DAERAH}${parent.data.attributes.KOD_MUKIM}${data.attributes.KOD_SEKSYEN}</field>
                     <field>${parent.parent.parent.data.attributes.KOD_NEGERI}${parent.parent.data.attributes.KOD_DAERAH}${parent.data.attributes.KOD_MUKIM}</field>
